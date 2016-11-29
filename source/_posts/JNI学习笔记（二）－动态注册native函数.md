@@ -15,6 +15,7 @@ tags: jni
 ### 2. 首先声明native函数
 
 现在，我在activity里声明了一个native函数。
+
 ```
 public native String getStringFromC();
 ```
@@ -24,6 +25,7 @@ public native String getStringFromC();
 ### 3. 创建并编写 .h头文件
 
 创建jni目录，并且右键->new c++class，会生出相应的.h 和.cpp 文件，我们需要稍微修改下.h 文件。
+
 ```
 #ifndef NDK_CORE_H
 #define NDK_CORE_H
@@ -53,6 +55,7 @@ __END_DECLS
 ### 4. 编写cpp文件
 
 代码如下：
+
 ```
 jstring returnString(JNIEnv *env,jobject jobj){
   char* str = "I come from C＋＋";
@@ -91,6 +94,7 @@ JNIEXPORT int JNICALL JNI_OnLoad(JavaVM *vm,void *reserved) {
 ### 5. JNINativeMethod数组
 
 这个数组里存放着这样的元素。
+
 ```
 {"getStringFromC","()Ljava/lang/String;",(void *)returnString }
 ```
