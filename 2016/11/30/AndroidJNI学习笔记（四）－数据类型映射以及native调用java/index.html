@@ -3,24 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>pages搭建个人博客 | _StriveG Blog</title>
+  <title>AndroidJNI学习笔记（四）－数据类型映射以及native调用java | _StriveG Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="搭建步骤
-下载nodejs并安装
-安装hexo npm install -g hexo-cli">
+  <meta name="description" content="1. 前言前几篇学习了jni开发的基本流程、动态注册native函数以及相关编译文件的编写，咱们也算是知道了jni开发，但是还不够，今天咱们来学习下，java和jni的数据类型映射（说白了就是对应关系），以及如何在jni层调用java层的一些东西。偷偷告诉你们，这些全在jni.h文件里。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="pages搭建个人博客">
-<meta property="og:url" content="http://guolei1130.github.io/2016/11/29/hexo+github pages搭建个人博客/index.html">
+<meta property="og:title" content="AndroidJNI学习笔记（四）－数据类型映射以及native调用java">
+<meta property="og:url" content="http://guolei1130.github.io/2016/11/30/AndroidJNI学习笔记（四）－数据类型映射以及native调用java/index.html">
 <meta property="og:site_name" content="_StriveG Blog">
-<meta property="og:description" content="搭建步骤
-下载nodejs并安装
-安装hexo npm install -g hexo-cli">
-<meta property="og:updated_time" content="2016-11-29T10:11:44.000Z">
+<meta property="og:description" content="1. 前言前几篇学习了jni开发的基本流程、动态注册native函数以及相关编译文件的编写，咱们也算是知道了jni开发，但是还不够，今天咱们来学习下，java和jni的数据类型映射（说白了就是对应关系），以及如何在jni层调用java层的一些东西。偷偷告诉你们，这些全在jni.h文件里。">
+<meta property="og:image" content="http://img.blog.csdn.net/20161129225511135">
+<meta property="og:image" content="http://img.blog.csdn.net/20161129225901230">
+<meta property="og:updated_time" content="2016-11-29T16:06:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="pages搭建个人博客">
-<meta name="twitter:description" content="搭建步骤
-下载nodejs并安装
-安装hexo npm install -g hexo-cli">
+<meta name="twitter:title" content="AndroidJNI学习笔记（四）－数据类型映射以及native调用java">
+<meta name="twitter:description" content="1. 前言前几篇学习了jni开发的基本流程、动态注册native函数以及相关编译文件的编写，咱们也算是知道了jni开发，但是还不够，今天咱们来学习下，java和jni的数据类型映射（说白了就是对应关系），以及如何在jni层调用java层的一些东西。偷偷告诉你们，这些全在jni.h文件里。">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20161129225511135">
   
     <link rel="alternative" href="/atom.xml" title="_StriveG Blog" type="application/atom+xml">
   
@@ -230,11 +227,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="使用hexo+githb-hexo+github pages搭建个人博客" class="article article-type-使用hexo+githb" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-AndroidJNI学习笔记（四）－数据类型映射以及native调用java" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/29/hexo+github pages搭建个人博客/" class="article-date">
-      <time datetime="2016-11-29T03:49:42.000Z" itemprop="datePublished">2016-11-29</time>
+      <a href="/2016/11/30/AndroidJNI学习笔记（四）－数据类型映射以及native调用java/" class="article-date">
+      <time datetime="2016-11-29T16:05:36.000Z" itemprop="datePublished">2016-11-30</time>
 </a>
     </div>
   
@@ -247,7 +244,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      pages搭建个人博客
+      AndroidJNI学习笔记（四）－数据类型映射以及native调用java
     </h1>
   
 
@@ -258,7 +255,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jni/">jni</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -268,34 +265,69 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
-<h3 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h3><ol>
-<li>下载nodejs并安装</li>
-<li>安装hexo npm install -g hexo-cli</li>
-</ol>
+        <p><excerpt in="" index="" |="" 首页摘要=""></excerpt></p>
+<h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h3><p>前几篇学习了jni开发的基本流程、动态注册native函数以及相关编译文件的编写，咱们也算是知道了jni开发，但是还不够，今天咱们来学习下，java和jni的数据类型映射（说白了就是对应关系），以及如何在jni层调用java层的一些东西。偷偷告诉你们，这些全在jni.h文件里。</p>
 <ul>
 <li><a id="more"></a>
-<the rest="" of="" contents="" |="" 余下全文=""></the></li>
-</ul>
-<ol>
-<li>初始化gitpage，注意即使用户名大些 也弄小写，然后在电脑中 git clone xxx</li>
-<li>进入本地仓库，初始化hexo站点，hexo init</li>
-<li>修改配置_config.yml，public_dir 为 ./</li>
-<li>修改主题 找到好的主题包，下载zip或者git，将下面主题相关的文件复制到themes/某主题名下</li>
-<li>修改root目录下的_congig.yml文件，修改<figure class="highlight plain"><figcaption><span>spfk``` 并且修改deploy 为 </span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">	</div></pre></td></tr></table></figure></li>
-</ol>
-<p>deploy:<br>  type: git<br>  repo: <a href="https://github.com/Guolei1130/Guolei1130.github.io.git" target="_blank" rel="external">https://github.com/Guolei1130/Guolei1130.github.io.git</a><br>  branch: master<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">根据需求或者主题需要，修改其他相应的配置</div><div class="line"></div><div class="line">8. hexo generate 重新生成静态网页</div><div class="line">9. hexo new blogname，生成你的blog</div><div class="line">10. push到github,进行测试</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">### 一些基本操作</div><div class="line"></div><div class="line">* hexo new blogname 生成blog</div><div class="line">* hexo generate(g)  重新生成静态页面</div><div class="line">* hexo server(s)  启动本地服务器</div><div class="line"></div><div class="line">### 关于博客中的图片</div><div class="line"></div><div class="line">个人建议放在_posts同级目录，规则按image/年/月/文章/来放</div><div class="line"></div><div class="line">### 关于删除文章</div><div class="line"></div><div class="line">直接删除_post下的即可</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">### 多说</div><div class="line"></div><div class="line">大部分主题支持pv统计和多说，pv统计，大多数我们不需要改</div><div class="line">去http://duoshuo.com/create-site/注册，并修改theme中的配置</div></pre></td></tr></table></figure></p>
-<p>duoshuo:<br>  on: true<br>  domain: guolei1130</p>
-<h1 id="是否开启多说评论，http-duoshuo-com-create-site"><a href="#是否开启多说评论，http-duoshuo-com-create-site" class="headerlink" title="是否开启多说评论，http://duoshuo.com/create-site/"></a>是否开启多说评论，<a href="http://duoshuo.com/create-site/" target="_blank" rel="external">http://duoshuo.com/create-site/</a></h1><h1 id="使用上面网址登陆你的多说，然后创建站点，在-domain-中填入你设定的域名前半部分"><a href="#使用上面网址登陆你的多说，然后创建站点，在-domain-中填入你设定的域名前半部分" class="headerlink" title="使用上面网址登陆你的多说，然后创建站点，在 domain 中填入你设定的域名前半部分"></a>使用上面网址登陆你的多说，然后创建站点，在 domain 中填入你设定的域名前半部分</h1><h1 id="http-lt-要填的部分-gt-duoshuo-com-domain只填上-lt-gt-里的内容，不要填整个网址"><a href="#http-lt-要填的部分-gt-duoshuo-com-domain只填上-lt-gt-里的内容，不要填整个网址" class="headerlink" title="http://&lt;要填的部分&gt;.duoshuo.com (domain只填上&lt;&gt;里的内容，不要填整个网址)"></a>http://&lt;要填的部分&gt;.duoshuo.com (domain只填上&lt;&gt;里的内容，不要填整个网址)</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">配置完push到github，就可在多说管理后台进行管理</div><div class="line"></div><div class="line">### 关于全文模式</div><div class="line">先在主题的配置文件中，添加</div></pre></td></tr></table></figure>
-<p>auto_excerpt:<br>enable: false<br>length: 150<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">然后在文章的最前面加</div></pre></td></tr></table></figure></p>
-<p><excerpt in="" index="" |="" 首页摘要=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">在文章最后增加</div></pre></td></tr></table></figure></excerpt></p>
-<ul>
-<li><!-- more -->
 <the rest="" of="" contents="" |="" 余下全文="">
+
 
 </the></li>
 </ul>
-<p>```</p>
+<h3 id="2-数据类型映射"><a href="#2-数据类型映射" class="headerlink" title="2. 数据类型映射"></a>2. 数据类型映射</h3><p>首先是我们的基本数据类型，其关系如下表描述这样。</p>
+<p><img src="http://img.blog.csdn.net/20161129225511135" alt="这里写图片描述"></p>
+<p>上面关系的相关代码在jni.h的44－51行，如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">typedef unsigned char   jboolean;       /* unsigned 8 bits */</div><div class="line">typedef signed char     jbyte;          /* signed 8 bits */</div><div class="line">typedef unsigned short  jchar;          /* unsigned 16 bits */</div><div class="line">typedef short           jshort;         /* signed 16 bits */</div><div class="line">typedef int             jint;           /* signed 32 bits */</div><div class="line">typedef long long       jlong;          /* signed 64 bits */</div><div class="line">typedef float           jfloat;         /* 32-bit IEEE 754 */</div><div class="line">typedef double          jdouble;        /* 64-bit IEEE 754 */</div></pre></td></tr></table></figure>
+<p>而jni层的引用类型则是下面这个样子。</p>
+<p><img src="http://img.blog.csdn.net/20161129225901230" alt="这里写图片描述"></p>
+<p>对于这些引用类型，c++和c的实现是不一样的。如果是c++的话，所有引用类型派生自 jobject，如果使用 C 语言编写的话，所有引用类型使用 jobject，其它引用类型使用 typedef 重新定义。同样代码也在jni.h中。这里只给出c++继承结构的部分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">class _jobject &#123;&#125;;</div><div class="line">class _jclass : public _jobject &#123;&#125;;</div><div class="line">class _jstring : public _jobject &#123;&#125;;</div><div class="line">class _jarray : public _jobject &#123;&#125;;</div><div class="line">class _jobjectArray : public _jarray &#123;&#125;;</div><div class="line">class _jbooleanArray : public _jarray &#123;&#125;;</div><div class="line">class _jbyteArray : public _jarray &#123;&#125;;</div><div class="line">class _jcharArray : public _jarray &#123;&#125;;</div><div class="line">class _jshortArray : public _jarray &#123;&#125;;</div><div class="line">class _jintArray : public _jarray &#123;&#125;;</div><div class="line">class _jlongArray : public _jarray &#123;&#125;;</div><div class="line">class _jfloatArray : public _jarray &#123;&#125;;</div><div class="line">class _jdoubleArray : public _jarray &#123;&#125;;</div><div class="line">class _jthrowable : public _jobject &#123;&#125;;</div></pre></td></tr></table></figure>
+<h3 id="3-native-如何调用c"><a href="#3-native-如何调用c" class="headerlink" title="3. native 如何调用c"></a>3. native 如何调用c</h3><p>我们这里的调用包括许多方面，如：</p>
+<ul>
+<li>调用静态方法</li>
+<li>调用实例方法</li>
+<li>获取字段值</li>
+<li>修改字段值</li>
+<li>构造对象</li>
+<li>等等</li>
+</ul>
+<p>而要实现上面的一些功能，同样要依靠jni.h的JNINativeInterface这个结构体，这里有很多很多的方法，供我们使用来实现native 调用java层的功能。而调用的流程是这样的：</p>
+<ul>
+<li>根据全限定名在jvm中找到想要的类</li>
+<li>从jclass中获取到method、或者field</li>
+<li>执行获取值、修改值、调用方法或者其他的操作</li>
+<li>释放局部引用</li>
+</ul>
+<p>举个调用静态方法的例子看看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">void callJavaStatic(JNIEnv *env,jobject jobj)&#123;</div><div class="line">  char* str = &quot;call from c++&quot;;</div><div class="line"></div><div class="line">  jclass clazz = env-&gt;FindClass(&quot;com/example/cmake_demo/MainActivity&quot;);</div><div class="line">  if (clazz == NULL) &#123;</div><div class="line">    LOGE(&quot;class is null&quot;);</div><div class="line">    return;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  jmethodID method = env-&gt;GetStaticMethodID(clazz,&quot;javaStaticMethod&quot;,&quot;(Ljava/lang/String;)V&quot;);</div><div class="line">  if (method == NULL) &#123;</div><div class="line">    LOGE(&quot;not find method&quot;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  jstring  jstr = env-&gt;NewStringUTF(str);</div><div class="line">  env-&gt;CallStaticVoidMethod(clazz,method,jstr);</div><div class="line">  env-&gt;DeleteLocalRef(clazz);</div><div class="line">  env-&gt;DeleteLocalRef(jstr);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="3-1-如何找到类"><a href="#3-1-如何找到类" class="headerlink" title="3.1 如何找到类"></a>3.1 如何找到类</h4><p>很简单，我们可以通过FindClass方法去查找类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jclass clazz = env-&gt;FindClass(&quot;com/example/cmake_demo/MainActivity&quot;);</div></pre></td></tr></table></figure>
+<h4 id="3-2-如何获取方法、或者字段"><a href="#3-2-如何获取方法、或者字段" class="headerlink" title="3.2  如何获取方法、或者字段"></a>3.2  如何获取方法、或者字段</h4><p>大致为以下四种方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">env-&gt;GetxxxField()</div><div class="line">env-&gt;GetStaticxxxField()</div><div class="line">env-&gt;GetMethodID()</div><div class="line">env-&gt;GetxxxMethodID()</div></pre></td></tr></table></figure>
+<p>上面没有列出参数，但是仍然很明白，这里就不多说了。</p>
+<h4 id="3-3-如何调用方法"><a href="#3-3-如何调用方法" class="headerlink" title="3.3 如何调用方法"></a>3.3 如何调用方法</h4><p>这里呢。大致分为以下四种：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">env-&gt;CallXXXMethod();</div><div class="line">env-&gt;CallxxxMethodA();</div><div class="line">env-&gt;CallxxxMethodV();</div><div class="line">env-&gt;CallNonvirtualBooleanMethod()</div></pre></td></tr></table></figure>
+<p>同样，我这里没给出方法的参数，同学们自己看jni.h吧</p>
+<ul>
+<li>调用方法（这里的方法可能使静态的、也可能是非静态的）</li>
+<li>和上面的区别就在于对应的java层参数，在这里以数组的形式传进入</li>
+<li>和1的区别就是，以v(矢量？)的形式传进去，这里我也不是很理解，希望知道的同学指点下。</li>
+<li>调用构造函数初始化一个对象，这个，马上说道。</li>
+</ul>
+<h4 id="3-4-如何修改字段的值"><a href="#3-4-如何修改字段的值" class="headerlink" title="3.4 如何修改字段的值"></a>3.4 如何修改字段的值</h4><p>相信到这里，大家猜都能猜出来，set 么，这里我就不叨叨了。</p>
+<h4 id="3-5-如何构造一个对象出来"><a href="#3-5-如何构造一个对象出来" class="headerlink" title="3.5 如何构造一个对象出来"></a>3.5 如何构造一个对象出来</h4><p>有些情况下我们是需要构造出java层的对象的，那么如何构造呢，我们有两种办法。</p>
+<ul>
+<li>NewObject方法 </li>
+<li>CallNonvirtualxxMethod</li>
+</ul>
+<p>先说第一种，NewObject方法，除了要求jclass参数之外，还要求jmethodid，以及java称构造方法对应的参数。其他两个还好，关键是这个jmethodID，这个在获取的时候，方法名固定是&lt; init &gt;（md语法的原因，注意尖括号之间没有空格），别问为什么。</p>
+<p>在来说说第二种，第二中使用时这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">jobject  jo = env-&gt;AllocObject(clazz);</div><div class="line">env-&gt;CallNonvirtualVoidMethod(jo,clazz,jmethodId,arg )</div></pre></td></tr></table></figure>
+<ul>
+<li>第一行代码 创建未初始化的对象，并分配内存</li>
+<li>第二行代码，调用init那个方法（构造方法）进行初始化,注意，只能初始化一次。</li>
+</ul>
+<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h3><p>现在我们明白了jni 和 java的数据类型映射关系，以及在jni层调用java层的方法。</p>
 
       
     </div>
@@ -304,13 +336,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/11/29/hexo+github pages搭建个人博客/">pages搭建个人博客</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/30/AndroidJNI学习笔记（四）－数据类型映射以及native调用java/">AndroidJNI学习笔记（四）－数据类型映射以及native调用java</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 _StriveG 的个人博客">_StriveG</a></p>
-        <p><span>发布时间:</span>2016年11月29日 - 11时49分</p>
-        <p><span>最后更新:</span>2016年11月29日 - 18时11分</p>
+        <p><span>发布时间:</span>2016年11月30日 - 00时05分</p>
+        <p><span>最后更新:</span>2016年11月30日 - 00时06分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/29/hexo+github pages搭建个人博客/" title="pages搭建个人博客">http://guolei1130.github.io/2016/11/29/hexo+github pages搭建个人博客/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://guolei1130.github.io/2016/11/29/hexo+github pages搭建个人博客/　　作者: _StriveG" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/30/AndroidJNI学习笔记（四）－数据类型映射以及native调用java/" title="AndroidJNI学习笔记（四）－数据类型映射以及native调用java">http://guolei1130.github.io/2016/11/30/AndroidJNI学习笔记（四）－数据类型映射以及native调用java/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://guolei1130.github.io/2016/11/30/AndroidJNI学习笔记（四）－数据类型映射以及native调用java/　　作者: _StriveG" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -323,15 +355,11 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/11/29/JNI学习笔记（二）－动态注册native函数/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          JNI学习笔记（二）－动态注册native函数
-        
-      </div>
-    </a>
   
+    <a href="/2016/11/29/JNI学习笔记（三）－编译文件makefile以及cmake/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JNI学习笔记（三）－编译文件makefile以及cmake</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
   
 </nav>
 
@@ -340,7 +368,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#搭建步骤"><span class="toc-number">1.</span> <span class="toc-text">搭建步骤</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#是否开启多说评论，http-duoshuo-com-create-site"><span class="toc-number"></span> <span class="toc-text">是否开启多说评论，http://duoshuo.com/create-site/</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用上面网址登陆你的多说，然后创建站点，在-domain-中填入你设定的域名前半部分"><span class="toc-number"></span> <span class="toc-text">使用上面网址登陆你的多说，然后创建站点，在 domain 中填入你设定的域名前半部分</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#http-lt-要填的部分-gt-duoshuo-com-domain只填上-lt-gt-里的内容，不要填整个网址"><span class="toc-number"></span> <span class="toc-text">http://<要填的部分>.duoshuo.com (domain只填上<>里的内容，不要填整个网址)</span></a>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-前言"><span class="toc-number">1.</span> <span class="toc-text">1. 前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-数据类型映射"><span class="toc-number">2.</span> <span class="toc-text">2. 数据类型映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-native-如何调用c"><span class="toc-number">3.</span> <span class="toc-text">3. native 如何调用c</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-如何找到类"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 如何找到类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-如何获取方法、或者字段"><span class="toc-number">3.2.</span> <span class="toc-text">3.2  如何获取方法、或者字段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-如何调用方法"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 如何调用方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-如何修改字段的值"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 如何修改字段的值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-5-如何构造一个对象出来"><span class="toc-number">3.5.</span> <span class="toc-text">3.5 如何构造一个对象出来</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-总结"><span class="toc-number">4.</span> <span class="toc-text">4. 总结</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -388,7 +416,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/11/29/hexo+github pages搭建个人博客/" data-title="pages搭建个人博客" data-url="http://guolei1130.github.io/2016/11/29/hexo+github pages搭建个人博客/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/30/AndroidJNI学习笔记（四）－数据类型映射以及native调用java/" data-title="AndroidJNI学习笔记（四）－数据类型映射以及native调用java" data-url="http://guolei1130.github.io/2016/11/30/AndroidJNI学习笔记（四）－数据类型映射以及native调用java/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -411,13 +439,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/29/JNI学习笔记（二）－动态注册native函数/" title="上一篇: JNI学习笔记（二）－动态注册native函数">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a href="/2016/11/29/JNI学习笔记（三）－编译文件makefile以及cmake/" title="下一篇: JNI学习笔记（三）－编译文件makefile以及cmake">
+                <i class="fa fa-angle-right"></i>
+            </a>
         
     </div>
     <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/AndroidJNI学习笔记（四）－数据类型映射以及native调用java/">AndroidJNI学习笔记（四）－数据类型映射以及native调用java</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/JNI学习笔记（三）－编译文件makefile以及cmake/">JNI学习笔记（三）－编译文件makefile以及cmake</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/JNI学习笔记（二）－动态注册native函数/">JNI学习笔记（二）－动态注册native函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/hexo+github pages搭建个人博客/">pages搭建个人博客</a></li></ul>
