@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JNI学习笔记（三）－编译文件makefile以及cmake | _StriveG Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1. 前言在android2.2中，加入了cmake编译，而以前都是用Android.mk、Application.mk的，今天就来记录下，他们的配置选项。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JNI学习笔记（三）－编译文件makefile以及cmake">
+<meta property="og:url" content="http://guolei1130.github.io/2016/11/29/JNI学习笔记（三）－编译文件makefile以及cmake/index.html">
+<meta property="og:site_name" content="_StriveG Blog">
+<meta property="og:description" content="1. 前言在android2.2中，加入了cmake编译，而以前都是用Android.mk、Application.mk的，今天就来记录下，他们的配置选项。">
+<meta property="og:updated_time" content="2016-11-29T10:58:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JNI学习笔记（三）－编译文件makefile以及cmake">
+<meta name="twitter:description" content="1. 前言在android2.2中，加入了cmake编译，而以前都是用Android.mk、Application.mk的，今天就来记录下，他们的配置选项。">
+  
+    <link rel="alternative" href="/atom.xml" title="_StriveG Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">_StriveG</a></h1>
+        </hgroup>
+
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="https://guolei1130.github.io/">博客首页</a></li>
+                        
+                            <li><a href="https://github.com/Guolei1130/">作品展示</a></li>
+                        
+                            <li><a href="http://blog.csdn.net/qq_21430549">csdn博客</a></li>
+                        
+                            <li><a href="http://monsterlin.com/">友情链接</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/Guolei1130" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="#" title="weibo">weibo</a>
+                            
+                                <a class="fl google" target="_blank" href="#" title="google">google</a>
+                            
+                                <a class="fl twitter" target="_blank" href="#" title="twitter">twitter</a>
+                            
+                                <a class="fl linkedin" target="_blank" href="#" title="linkedin">linkedin</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jni/" style="font-size: 20px;">jni</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://guolei1130.github.io/">name</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">热爱分享，沉迷代码。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">_StriveG</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">_StriveG</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="https://guolei1130.github.io/">博客首页</a></li>
+                
+                    <li><a href="https://github.com/Guolei1130/">作品展示</a></li>
+                
+                    <li><a href="http://blog.csdn.net/qq_21430549">csdn博客</a></li>
+                
+                    <li><a href="http://monsterlin.com/">友情链接</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/Guolei1130" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+                    
+                        <a class="google" target="_blank" href="#" title="google">google</a>
+                    
+                        <a class="twitter" target="_blank" href="#" title="twitter">twitter</a>
+                    
+                        <a class="linkedin" target="_blank" href="#" title="linkedin">linkedin</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-JNI学习笔记（三）－编译文件makefile以及cmake" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/29/JNI学习笔记（三）－编译文件makefile以及cmake/" class="article-date">
+      <time datetime="2016-11-29T10:38:27.000Z" itemprop="datePublished">2016-11-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JNI学习笔记（三）－编译文件makefile以及cmake
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jni/">jni</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <excerpt in="" index="" |="" 首页摘要="">
+
+<h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h3><p>在android2.2中，加入了cmake编译，而以前都是用Android.mk、Application.mk的，今天就来记录下，他们的配置选项。</p>
+<ul>
+<li><a id="more"></a>
+<the rest="" of="" contents="" |="" 余下全文="">
+
+</the></li>
+</ul>
+<h3 id="2-Android-mk"><a href="#2-Android-mk" class="headerlink" title="2. Android.mk"></a>2. Android.mk</h3><p>Android.mk在jni目录下，用于描述构建系统的源文件以及<br>shared libraries 。文件格式如下：</p>
+<ul>
+<li>以LOCAL_PATH变量开始 </li>
+</ul>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">LOCAL_PATH := $(call my-dir)</div></pre></td></tr></table></figure>
+</code></pre><ul>
+<li><p>紧接着是CLEAR_VARS变量 </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">include $(CLEAR_VARS)</div></pre></td></tr></table></figure>
+</li>
+<li><p>接下来LOCAL_MODULE变量，定义来将要输出的so文件的名，默认情况下，输出的so为 lib+LOCAL_MODULE变量值+.so，如果变量值前面有了lib，就不会加了，或者变量值后面有.xxx，也会去掉。</p>
+</li>
+<li><p>接下来是LOCAL_SRC_FILES变量，声明我们的原文件路径，如</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">LOCAL_SRC_FILES := hello-jni.c</div></pre></td></tr></table></figure>
+</li>
+<li><p>最后一行是帮助构建系统联系在一起的。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">include $(BUILD_SHARED_LIBRARY)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">LOCAL_PATH := $(call my-dir)</div><div class="line">include $(CLEAR_VARS)</div><div class="line"></div><div class="line">LOCAL_MODULE := hello-jni</div><div class="line"></div><div class="line">LOCAL_SRC_FILES := hello.cpp</div><div class="line"></div><div class="line">include $(BUILD_SHARED_LIBRARY)</div></pre></td></tr></table></figure>
+<p>当然，上面只是一个最简单的，下面我们来介绍其他的一些变量和宏。</p>
+<p>构建系统提供了许多变量和宏，当然 也允许我们自定义，内置的有以下三种：</p>
+<ul>
+<li>以LOCAL_开始，如LOCAL_MODULE</li>
+<li>以PRIVATE<em>, NDK</em>, or APP </li>
+<li>小写字母，如 my-di</li>
+</ul>
+<p>如果要自定义的话，建议MY_开头。</p>
+<h4 id="2-1-NDK-默认的变量"><a href="#2-1-NDK-默认的变量" class="headerlink" title="2.1 NDK 默认的变量"></a>2.1 NDK 默认的变量</h4><ul>
+<li><p>CLEAR_VARS  用来在描述新model之前引入这个脚本，会清除之前的值 </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">include $(CLEAR_VARS)</div></pre></td></tr></table></figure>
+</li>
+<li><p>BUILD_SHARED<em>LIBRARY,告诉构建系统去收集声明的LOCAL</em>变量的值，然后输出成so </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">include $(BUILD_SHARED_LIBRARY)</div></pre></td></tr></table></figure>
+</li>
+<li><p>BUILD_STATIC_LIBRARY,和BUILD_SHARED_LIBRARY类似，不过不会复制到project/packages，但是可以提供给shared libraries用，会输出成.a </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">include $(BUILD_STATIC_LIBRARY)</div></pre></td></tr></table></figure>
+</li>
+<li><p>PREBUILT_SHARED_LIBRARY 用于指定预先编译好的共享库，但是LOCAL_SRC_FILES是so文件 </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">include $(PREBUILT_SHARED_LIBRARY)</div></pre></td></tr></table></figure>
+</li>
+<li><p>PREBUILT_STATIC_LIBRARY 和PREBUILT_SHARED_LIBRARY 类似</p>
+</li>
+<li>TARGET_ARCH 略，重点看TARGET_ARCH_ABI</li>
+<li><p>TARGET_PLATFORM 指定当前编译的android api版本 </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TARGET_PLATFORM := android-22</div></pre></td></tr></table></figure>
+</li>
+<li><p>TARGET_ARCH_ABI 指定cpu架构，</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TARGET_ARCH_ABI := arm64-v8a</div></pre></td></tr></table></figure>
+</li>
+<li><p>TARGET_ABI，指定android api版本鱼abi架构</p>
+</li>
+<li>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TARGET_ABI := android-22-arm64-v8a</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-2-Module-Description-Variables-描述model的变量"><a href="#2-2-Module-Description-Variables-描述model的变量" class="headerlink" title="2.2 Module-Description Variables 描述model的变量"></a>2.2 Module-Description Variables 描述model的变量</h4><ul>
+<li>LOCAL_PATH 指定当前文件的路径，必须在文件开始的时候指定 </li>
+</ul>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">LOCAL_PATH := $(call my-dir)</div></pre></td></tr></table></figure>
+
+注意CLEAR_VARS，并不会清除这个的值
+</code></pre><ul>
+<li>LOCAL_MODULE </li>
+<li>LOCAL_MODULE_FILENAME 可以指定生成的so文件的名字</li>
+<li>LOCAL_SRC_FILES 指定这个model对应的原文件</li>
+<li>LOCAL_CPP_EXTENSION 配置c++ 文件后缀(扩展名)，是c++、cc还是其他</li>
+<li><p>LOCAL_CPP_FEATURES 指定特定的c++特性 如支持RTTI (RunTime Type Information),</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">LOCAL_CPP_FEATURES := rtti</div></pre></td></tr></table></figure>
+</li>
+<li><p>LOCAL_C_INCLUDES 指定路径列表，相对于ndk的跟路径</p>
+</li>
+<li>LOCAL_CFLAGS、LOCAL_CPPFLAGS 可以指定额外的宏定义和编译选项</li>
+<li>LOCAL_STATIC_LIBRARIES、LOCAL_SHARED_LIBRARIES 指定其他的static libraries、shared libraries</li>
+<li>LOCAL_WHOLE_STATIC_LIBRARIES  整个。</li>
+<li><p>LOCAL_LDLIBS 指定系统-l指定系统库，如/system/lib/libz.so </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">LOCAL_LDLIBS := -lz</div></pre></td></tr></table></figure>
+</li>
+<li><p>LOCAL_LDFLAGS 略，没看明白</p>
+</li>
+<li>LOCAL_ALLOW_UNDEFINED_SYMBOLS 默认情况下,当构建系统遇到遇到未定义的引用在试图建立一个共享的,它会抛出未定义符号错误。这个错误可以帮助debug。</li>
+<li>剩下的许多 并不常用，暂时到这里，以后有机会用的话，查文档吧。</li>
+</ul>
+<h3 id="3-Application-mk"><a href="#3-Application-mk" class="headerlink" title="3. Application.mk"></a>3. Application.mk</h3><p>用于描述app需要的native model。</p>
+<h4 id="3-1-变量"><a href="#3-1-变量" class="headerlink" title="3.1 变量"></a>3.1 变量</h4><ul>
+<li>APP_PROJECT_PATH 这个变量存储应用程序的项目根目录的绝对路径。</li>
+<li>APP_OPTIM 配置release和debug</li>
+<li>APP_CFLAGS 这个变量存储一组构建系统的C编译器标志传递给编译器编译任何C或c++源代码的任何模块，可以修改应用需要的构建模块而不用修改Android.mk文件</li>
+<li>APP_CPPFLAGS 和 APP_CFLAGS类似</li>
+<li>APP_LDFLAGS A set of linker flags that the build system passes when linking the application，只对 shared libraries 和 executables有效</li>
+<li>APP_BUILD_SCRIPT 指定Android.mk文件</li>
+<li>APP_ABI 指定abi</li>
+<li>APP_PLATFORM 指定android api版本</li>
+<li>APP_STL 链接其他的c＋＋支持</li>
+<li>NDK_TOOLCHAIN_VERSION  gcc编译版本</li>
+<li>APP_PIE </li>
+<li>APP_THIN_ARCHIVE</li>
+</ul>
+<h3 id="4-在Android-Studio中使用"><a href="#4-在Android-Studio中使用" class="headerlink" title="4.在Android Studio中使用"></a>4.在Android Studio中使用</h3><p>要求 Android Studio 2.2 以上。</p>
+<p>在gradle中，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">android &#123;</div><div class="line">  defaultConfig &#123;  </div><div class="line">    externalNativeBuild &#123;</div><div class="line">      cmake &#123;</div><div class="line">        // 设置cmake参数 &quot;-DVAR_NAME=VALUE&quot;</div><div class="line">        arguments &quot;-DANDROID_ARM_NEON=TRUE&quot;, &quot;-DANDROID_TOOLCHAIN=clang&quot;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    // 设置 abi</div><div class="line">    ndk &#123;</div><div class="line">            abiFilters &quot;armeabi&quot;,&quot;x86&quot;,&quot;armeabi-v7a&quot;</div><div class="line">        &#125;</div><div class="line">  &#125;</div><div class="line">  buildTypes &#123;...&#125;</div><div class="line">  </div><div class="line">  externalNativeBuild &#123;</div><div class="line">    cmake &#123;</div><div class="line">    	// CMakeLists.txt 文件路径</div><div class="line">    	path &apos;src/main/jni/CMakeLists.txt&apos; </div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们需要编写的就是上面三处有注释的地方。</p>
+<ul>
+<li>cmake参数 格式为 -D + Variable name ＝ Arguments 的形势<ul>
+<li>ANDROID_TOOLCHAIN cmake编译链，gcc 和clang（默认）两种</li>
+<li>ANDROID_PLATFORM target Android platform</li>
+<li>ANDROID_STL  cmake编译时用哪个stl，有以下种类<a href="https://developer.android.com/ndk/guides/cpp-support.html#hr" target="_blank" rel="external">Helper Runtimes</a></li>
+<li>ANDROID_PIE 指定是否使用位置独立的可执行(饼)。Android的动态链接器支持派在Android 4.1(API级16)和更高。</li>
+<li>ANDROID_CPP_FEATURES 指定特定的c++特性CMake编译时需要使用本地库,比如c++ RTTI(运行时类型信息)和异常,rtti,exceptions</li>
+<li>ANDROID_ALLOW_UNDEFINED_SYMBOLS 指定是否抛出未定义符号错误如果CMake遇到一个未定义的引用而建立你的本地库。禁用这些类型的错误,将这个变量设置为TRUE。</li>
+<li>ANDROID_ARM_MODE 设置生成的二进制文件arm 还是 thumb模式，thumb模式下，每个指令都是16bits，arm模式下为32位，默认是 thumb</li>
+<li>NDROID_ARM_NEON build native lib 是否NONE支持</li>
+<li>ANDROID_DISABLE_NO_EXECUTE 是否允许ne bit，或者执行、或者安全特训过</li>
+<li>ANDROID_DISABLE_RELRO 是否只读</li>
+<li>ANDROID_DISABLE_FORMAT_STRING_CHECKS 指定与格式字符串是否编译源代码的保护。当启用时,编译器将抛出一个错误如果不恒定格式字符串中使用printf-style函数。</li>
+</ul>
+</li>
+<li>ndk abifilters</li>
+<li>cmake path</li>
+</ul>
+<p>关于cmake 参数，<a href="https://developer.android.com/ndk/guides/cmake.html" target="_blank" rel="external">官方文档</a></p>
+<h3 id="5-CMakeLists-txt-编写"><a href="#5-CMakeLists-txt-编写" class="headerlink" title="5. CMakeLists.txt 编写"></a>5. CMakeLists.txt 编写</h3><ul>
+<li>cmake 最小版本 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">	cmake_minimum_required(VERSION 3.4.1)	</div><div class="line">	``` </div><div class="line">		</div><div class="line">*</div></pre></td></tr></table></figure></li>
+</ul>
+<p>add_library(native lib name,SHARED(SHARED还是STATIC),c++或c文件路径)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">* 指定头文件路径</div></pre></td></tr></table></figure></p>
+<p>include_directories(src/main/cpp/include/)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#### 5.1 添加native api</div></pre></td></tr></table></figure></p>
+<p>find_library( # Defines the name of the path variable that stores the</p>
+<pre><code># location of the NDK library.
+log-lib
+
+# Specifies the name of the NDK library that
+# CMake needs to locate.
+log )
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">按照我个人的理解，</div><div class="line"></div><div class="line">* 第一个就是lib库的别名，就是我们在这个文件中其他地方要使用的。</div><div class="line">* 第二个参数是对应的native lib库的名字，第二个参数在ndk-bundle/platforms/android版本／下面能找到。根据我们上面说到的生成so文件规则，能够很清楚的提出lib name</div><div class="line"></div><div class="line">然后使用target_link_libraries(native-lib,$&#123;log-lib&#125;) 去链接咱们的本地库和ndk中带的本地库，</div><div class="line"></div><div class="line">_ _ _</div><div class="line"></div><div class="line">也可以将源代码添加进来，</div></pre></td></tr></table></figure>
+<p>add_library( app-glue<br>             STATIC<br>             ${ANDROID_NDK}/sources/android/native_app_glue/android_native_app_glue.c )<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">* lib name</div><div class="line">* 类型</div><div class="line">* 文件路径</div><div class="line"></div><div class="line"></div><div class="line">#### 5.2 添加其他预先构建的libraries</div><div class="line"></div><div class="line">因为这些已经有的，需要用 IMPORTED 去告诉cmkae，只需要将这个lib导入到咱们的project</div></pre></td></tr></table></figure></p>
+<p>add_library( imported-lib<br>             SHARED<br>             IMPORTED )<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">然后需要用set_target_properties去指定路径。</div></pre></td></tr></table></figure></p>
+<p>set_target_properties( # Specifies the target library.<br>                       imported-lib</p>
+<pre><code># Specifies the parameter you want to define.
+PROPERTIES IMPORTED_LOCATION
+
+# Provides the path to the library you want to import.
+imported-lib/src/${ANDROID_ABI}/libimported-lib.so )
+</code></pre><p>```</p>
+<ul>
+<li>lib name</li>
+<li>指定参数</li>
+<li>指定so的路径</li>
+</ul>
+<p>这时候需要include_directories来指定so对应的头文件路径，上面也说到过了。</p>
+<h3 id="6-总结"><a href="#6-总结" class="headerlink" title="6. 总结"></a>6. 总结</h3><p>有理解的不对的，大家指出，共同学习共同进步。</p>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://developer.android.com/ndk/guides/android_mk.html" target="_blank" rel="external">Android.mk、文档</a></li>
+<li><a href="https://developer.android.com/ndk/guides/application_mk.html" target="_blank" rel="external">Application.mk 文档</a></li>
+<li><a href="https://developer.android.com/ndk/guides/cmake.html" target="_blank" rel="external">Android 文档cmake 文档</a></li>
+<li><a href="https://developer.android.com/studio/projects/add-native-code.html#existing-project" target="_blank" rel="external">Android studio 中介绍</a></li>
+</ul>
+</excerpt>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/11/29/JNI学习笔记（三）－编译文件makefile以及cmake/">JNI学习笔记（三）－编译文件makefile以及cmake</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 _StriveG 的个人博客">_StriveG</a></p>
+        <p><span>发布时间:</span>2016年11月29日 - 18时38分</p>
+        <p><span>最后更新:</span>2016年11月29日 - 18时58分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/29/JNI学习笔记（三）－编译文件makefile以及cmake/" title="JNI学习笔记（三）－编译文件makefile以及cmake">http://guolei1130.github.io/2016/11/29/JNI学习笔记（三）－编译文件makefile以及cmake/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://guolei1130.github.io/2016/11/29/JNI学习笔记（三）－编译文件makefile以及cmake/　　作者: _StriveG" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2016/11/29/JNI学习笔记（二）－动态注册native函数/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JNI学习笔记（二）－动态注册native函数</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-前言"><span class="toc-number">1.</span> <span class="toc-text">1. 前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Android-mk"><span class="toc-number">2.</span> <span class="toc-text">2. Android.mk</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-NDK-默认的变量"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 NDK 默认的变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-Module-Description-Variables-描述model的变量"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 Module-Description Variables 描述model的变量</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Application-mk"><span class="toc-number">3.</span> <span class="toc-text">3. Application.mk</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-变量"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 变量</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-在Android-Studio中使用"><span class="toc-number">4.</span> <span class="toc-text">4.在Android Studio中使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-CMakeLists-txt-编写"><span class="toc-number">5.</span> <span class="toc-text">5. CMakeLists.txt 编写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-总结"><span class="toc-number">6.</span> <span class="toc-text">6. 总结</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/11/29/JNI学习笔记（三）－编译文件makefile以及cmake/" data-title="JNI学习笔记（三）－编译文件makefile以及cmake" data-url="http://guolei1130.github.io/2016/11/29/JNI学习笔记（三）－编译文件makefile以及cmake/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guolei1130"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/11/29/JNI学习笔记（二）－动态注册native函数/" title="下一篇: JNI学习笔记（二）－动态注册native函数">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/JNI学习笔记（三）－编译文件makefile以及cmake/">JNI学习笔记（三）－编译文件makefile以及cmake</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/JNI学习笔记（二）－动态注册native函数/">JNI学习笔记（二）－动态注册native函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/hexo+github pages搭建个人博客/">pages搭建个人博客</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 _StriveG
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >阅读总量: 
+                            <span id="busuanzi_value_site_pv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
