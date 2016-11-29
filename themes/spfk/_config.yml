@@ -171,5 +171,11 @@ visit_counter:
 # A标签提示
 TipTitle: true
 
+# Automatically Excerpt. Not recommand.
+# Please use <!-- more --> in the post to control excerpt accurately.
+auto_excerpt:
+enable: false
+length: 150
+
 # Loading
 # Loading: true
