@@ -13,7 +13,7 @@ menu:
 # 随笔: /tags/随笔
 
 # Link to your avatar | 填写头像地址
-avatar: img/head.jpg
+avatar: img/head.png
 
 # Small icon of Your site | 站点小图标地址
 favicon: img/favicon.png
@@ -24,8 +24,8 @@ favicon: img/favicon.png
 ## RSS requires a plugin to take effect | 使用 RSS 需先安装对应插件
 ## https://github.com/hexojs/hexo-generator-feed
 subnav:
-  mail: "http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=PAkNDgsKBQ4MCnxNTRJfU1E"
-  github: "https://github.com/luuman"
+  #mail: "http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=PAkNDgsKBQ4MCnxNTRJfU1E"
+  github: "https://github.com/Guolei1130"
   zhihu: "#"
   weibo: "#"
   google: "#"
@@ -55,7 +55,7 @@ disqus:
 
 duoshuo: 
   on: true
-  domain: 
+  domain: guolei1130
   # 是否开启多说评论，http://duoshuo.com/create-site/
   # 使用上面网址登陆你的多说，然后创建站点，在 domain 中填入你设定的域名前半部分
   # http://<要填的部分>.duoshuo.com (domain只填上<>里的内容，不要填整个网址)
@@ -103,7 +103,7 @@ toc_nowrap: false
 
 # 自定义"阅读全文"链接按钮的显示文字
 # Customize the text on excerpt link
-excerpt_link: 大航海 #修改more>>的文字
+excerpt_link: 阅读全文 #修改more>>的文字
 
 # 是否显示边栏中的搜索框（仅样式，未添加搜索功能）
 # Search Box in left column
@@ -123,10 +123,10 @@ tagcloud: true
 # Blogroll, Link exchange | 友情链接
 # friends: false
 friends:
-  name: http://luuman.github.io/
+  name: http://guolei1130.github.io/
 
 #是否开启“关于我”。
-aboutme: 纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中
+aboutme: 热爱分享，沉迷代码。
 #aboutme: false
 
 # 是否在新窗口打开链接
@@ -165,7 +165,7 @@ baidu_analytics:
 # http://ibruce.info/2015/04/04/busuanzi/
 visit_counter:
   on: true
-  site_visit: 海贼到访数
+  site_visit: 阅读总量
   page_visit: 本页阅读量
 
 # A标签提示
