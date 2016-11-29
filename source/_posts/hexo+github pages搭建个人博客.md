@@ -1,7 +1,7 @@
 layout: 使用hexo+githb
 title: pages搭建个人博客
 date: 2016-11-29 11:49:42
-tags:hexo
+tags: hexo
 
 ---
 

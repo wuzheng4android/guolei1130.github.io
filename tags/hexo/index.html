@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   
-  <title>_StriveG Blog</title>
+  <title>Tag: hexo | _StriveG Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="_StriveG Blog">
-<meta property="og:url" content="http://guolei1130.github.io/index.html">
+<meta property="og:url" content="http://guolei1130.github.io/tags/hexo/index.html">
 <meta property="og:site_name" content="_StriveG Blog">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="_StriveG Blog">
@@ -24,9 +24,6 @@
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   
-    
-    
-  
   
       <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
   
@@ -38,10 +35,10 @@
           rootUrl: '/',
           fancybox: true,
           animate: true,
-          isHome: true,
+          isHome: false,
           isPost: false,
           isArchive: false,
-          isTag: false,
+          isTag: true,
           isCategory: false,
           open_in_new: false
       }
@@ -225,92 +222,52 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="使用hexo+githb-hexo+github pages搭建个人博客" class="article article-type-使用hexo+githb" itemscope itemprop="blogPost">
   
-    <div class="article-meta">
-      <a href="/2016/11/29/hexo+github pages搭建个人博客/" class="article-date">
-      <time datetime="2016-11-29T03:49:42.000Z" itemprop="datePublished">2016-11-29</time>
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-使用hexo+githb">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+          <div class="article-meta">
+              <a href="/2016/11/29/hexo+github pages搭建个人博客/" class="archive-article-date">
+      <time datetime="2016-11-29T03:49:42.000Z" itemprop="datePublished">11-29</time>
 </a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+        </div>
+         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/29/hexo+github pages搭建个人博客/">pages搭建个人博客</a>
+      <a class="archive-article-title" href="/2016/11/29/hexo+github pages搭建个人博客/">pages搭建个人博客</a>
     </h1>
   
 
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
+        <div class="article-info info-on-archive">
           
-        <ol>
-<li>下载nodejs并安装</li>
-<li>安装hexo npm install -g hexo-cli</li>
-<li>初始化gitpage，注意即使用户名大些 也弄小写，然后在电脑中 git clone xxx</li>
-<li>进入本地仓库，初始化hexo站点，hexo init</li>
-<li>修改配置_config.yml，public_dir 为 ./</li>
-<li>修改主题 找到好的主题包，下载zip或者git，将下面主题相关的文件复制到themes/某主题名下</li>
-<li>修改root目录下的_congig.yml文件，修改<figure class="highlight plain"><figcaption><span>spfk``` 并且修改deploy 为 ```deploy:</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">type: git</div><div class="line">repo: https://github.com/Guolei1130/Guolei1130.github.io.git</div><div class="line">branch: master</div></pre></td></tr></table></figure></li>
-</ol>
-<p>根据需求或者主题需要，修改其他相应的配置</p>
-<ol>
-<li>hexo generate 重新生成静态网页</li>
-<li>hexo new blogname，生成你的blog</li>
-<li>push到github,进行测试</li>
-</ol>
-<hr>
-<h3 id="一些基本操作"><a href="#一些基本操作" class="headerlink" title="一些基本操作"></a>一些基本操作</h3><ul>
-<li>hexo new blogname 生成blog</li>
-<li>hexo generate(g)  重新生成静态页面</li>
-<li>hexo server(s)  启动本地服务器</li>
-</ul>
-<h3 id="关于博客中的图片"><a href="#关于博客中的图片" class="headerlink" title="关于博客中的图片"></a>关于博客中的图片</h3><p>个人建议放在_posts同级目录，规则按image/年/月/文章/来放</p>
-<h3 id="关于删除文章"><a href="#关于删除文章" class="headerlink" title="关于删除文章"></a>关于删除文章</h3><p>直接删除_post下的即可</p>
-<hr>
-<p>大部分主题支持pv统计和多说，pv统计，大多数我们不需要改</p>
-<h4 id="多说"><a href="#多说" class="headerlink" title="多说"></a>多说</h4><p>去<a href="http://duoshuo.com/create-site/注册，并修改theme中的配置" target="_blank" rel="external">http://duoshuo.com/create-site/注册，并修改theme中的配置</a></p>
-<p>&gt;<br>duoshuo:<br>  on: true<br>  domain: guolei1130</p>
-<h1 id="是否开启多说评论，http-duoshuo-com-create-site"><a href="#是否开启多说评论，http-duoshuo-com-create-site" class="headerlink" title="是否开启多说评论，http://duoshuo.com/create-site/"></a>是否开启多说评论，<a href="http://duoshuo.com/create-site/" target="_blank" rel="external">http://duoshuo.com/create-site/</a></h1><h1 id="使用上面网址登陆你的多说，然后创建站点，在-domain-中填入你设定的域名前半部分"><a href="#使用上面网址登陆你的多说，然后创建站点，在-domain-中填入你设定的域名前半部分" class="headerlink" title="使用上面网址登陆你的多说，然后创建站点，在 domain 中填入你设定的域名前半部分"></a>使用上面网址登陆你的多说，然后创建站点，在 domain 中填入你设定的域名前半部分</h1><h1 id="http-lt-要填的部分-gt-duoshuo-com-domain只填上-lt-gt-里的内容，不要填整个网址"><a href="#http-lt-要填的部分-gt-duoshuo-com-domain只填上-lt-gt-里的内容，不要填整个网址" class="headerlink" title="http://&lt;要填的部分&gt;.duoshuo.com (domain只填上&lt;&gt;里的内容，不要填整个网址)"></a>http://&lt;要填的部分&gt;.duoshuo.com (domain只填上&lt;&gt;里的内容，不要填整个网址)</h1><p>配置完push到github，就可在多说管理后台进行管理</p>
 
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
+          
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
     </div>
 
-      
-      <div class="clearfix"></div>
-    </div>
-    
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
-  
 </article>
-
-
-
-
-
-
-
-
-
   
   
+    </div></section>
+  
+
+    
+
 </div>
       <footer id="footer">
     <div class="outer">
@@ -375,6 +332,17 @@
         };
     })
 </script>
+
+    <button class="hide-labels">TAG 开关</button>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js">
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("button").click(function() {
+                $(".article-info").toggle(200);
+            });
+        });
+    </script>
 
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
