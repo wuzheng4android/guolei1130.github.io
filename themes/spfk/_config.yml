@@ -4,10 +4,10 @@
 ## About Page: `hexo new page about`
 ## Tags Cloud Page: `hexo new page tags`
 menu:
-  博客首页: /Home
-  作品展示: /works
-  留言打卡: /about
-  前端导航: /FrontEndGuide
+  博客首页: https://guolei1130.github.io/
+  作品展示: https://github.com/Guolei1130/
+  csdn博客: http://blog.csdn.net/qq_21430549
+  友情链接: http://monsterlin.com/
 # 静心阅读: /tags
 # 光影之路: /instagram
 # 随笔: /tags/随笔
